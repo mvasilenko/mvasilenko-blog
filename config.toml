@@ -1,6 +1,6 @@
-baseurl = "https://mvasilenko.tk/"
+baseurl = "https://mvasilenko.netlify.io/"
 languageCode = "en-us"
-title = "Mikhail Vasilenko"
+title = "Mikhail Vasilenko blog"
 # Enable comments by entering your Disqus shortname #mvasilenko
 #disqusShortname = ""
 # Enable Google Analytics by entering your tracking code
