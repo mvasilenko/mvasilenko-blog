@@ -3,21 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mvasilenko.tk/01-first-post/</loc>
+    <loc>https://mvasilenko.netlify.com/01-first-post/</loc>
   </url>
   
   <url>
-    <loc>https://mvasilenko.tk/categories/</loc>
+    <loc>https://mvasilenko.netlify.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mvasilenko.tk/</loc>
+    <loc>https://mvasilenko.netlify.com/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mvasilenko.tk/tags/</loc>
+    <loc>https://mvasilenko.netlify.com/tags/</loc>
     <priority>0</priority>
   </url>
   
