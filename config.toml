@@ -8,7 +8,7 @@ title = "Mikhail Vasilenko"
 # Define the number of posts per site
 paginate = 10
 #footnotereturnlinkcontents = ""
-theme = "icarus"
+theme = "hugo-icarus-theme"
 
 
 [permalinks]
