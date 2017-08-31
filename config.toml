@@ -4,7 +4,7 @@ title = "Mikhail Vasilenko blog"
 # Enable comments by entering your Disqus shortname #mvasilenko
 #disqusShortname = ""
 # Enable Google Analytics by entering your tracking code
-#googleAnalytics = "UA-67696-11"
+googleAnalytics = "UA-96094328-1"
 # Define the number of posts per site
 paginate = 10
 #footnotereturnlinkcontents = ""
