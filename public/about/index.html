@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>Mikhail Vasilenko blog</title>
+    <title>About me &middot; Mikhail Vasilenko blog</title>
     <meta name="generator" content="Hugo 0.25.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Mikhail Vasilenko">
     
-      <meta name="description" content="Mikhail Vasilenko - human being, father, IT engineer">
+      <meta name="description" content="About Mikhail Vasilenko">
     
     
-      <link href="https://mvasilenko.tk/index.xml" rel="alternate" type="application/rss+xml" title="Mikhail Vasilenko blog" />
-      <link href="https://mvasilenko.tk/index.xml" rel="feed" type="application/rss+xml" title="Mikhail Vasilenko blog" />
-    
-    <link rel="canonical" href="https://mvasilenko.tk/"/>
+    <link rel="canonical" href="https://mvasilenko.tk/about/"/>
     <link rel="icon" href="https://mvasilenko.tk/favicon.ico">
     <link rel="apple-touch-icon" href="https://mvasilenko.tk/apple-touch-icon.png"/>
     <link rel="stylesheet" href="https://mvasilenko.tk/css/style.css">
@@ -23,14 +20,16 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="Home" />
-<meta property="og:description" content="Mikhail Vasilenko - human being, father, IT engineer" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mvasilenko.tk/" />
+    <meta property="og:title" content="About me" />
+<meta property="og:description" content="About Mikhail Vasilenko" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mvasilenko.tk/about/" />
 
 
 
-<meta property="og:updated_time" content="2017-09-11T17:58:06&#43;03:00"/>
+
+
+
 
 
 
@@ -43,11 +42,28 @@
 
     
     
-<meta itemprop="name" content="Home">
-<meta itemprop="description" content="Mikhail Vasilenko - human being, father, IT engineer">
+<meta itemprop="name" content="About me">
+<meta itemprop="description" content="About Mikhail Vasilenko">
 
+
+
+<meta itemprop="wordCount" content="0">
+
+
+
+<meta itemprop="keywords" content="" />
 
     
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:text:title" content="About me"/>
+<meta name="twitter:title" content="About me"/>
+<meta name="twitter:description" content="About Mikhail Vasilenko"/>
+
+
     
 
     
@@ -254,12 +270,118 @@
 
     <section id="main">
     
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://mvasilenko.tk/about/">
+    <h1 class="article-title" itemprop="name">
+        About me
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" itemprop="datePublished">0001-01-01</time>
+            &middot;
+            0
+            
+            &middot;
+            0
+            
+        </div>
+        
+        
+
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://mvasilenko.tk/about/" data-id="6083a88ee3411b0d17ce02d738f69d47" class="article-share-link">
+        <i class="fa fa-share"></i>
+        
+    </a>
     
 
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-<nav id="page-nav">
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
 
-</nav>
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+
+</article>
+
 
 
     </section>

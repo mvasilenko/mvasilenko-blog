@@ -3,21 +3,69 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mvasilenko.netlify.com/01-first-post/</loc>
+    <loc>https://mvasilenko.tk/about/</loc>
   </url>
   
   <url>
-    <loc>https://mvasilenko.netlify.com/categories/</loc>
+    <loc>https://mvasilenko.tk/aws-overview/</loc>
+    <lastmod>2017-09-11T17:58:06+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/blog-on-github-hugo-netlify/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/categories/aws/</loc>
+    <lastmod>2017-09-11T17:58:06+03:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mvasilenko.netlify.com/</loc>
+    <loc>https://mvasilenko.tk/tags/blog/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mvasilenko.netlify.com/tags/</loc>
+    <loc>https://mvasilenko.tk/categories/blog/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/categories/</loc>
+    <lastmod>2017-09-11T17:58:06+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/</loc>
+    <lastmod>2017-09-11T17:58:06+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/tags/hosting/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/tags/hugo/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/tags/netlify/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mvasilenko.tk/tags/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

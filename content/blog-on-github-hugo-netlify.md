@@ -4,7 +4,7 @@ tags = ["hugo","netlify", "hosting", "blog"]
 categories = ["blog"]
 topics = ["blog"]
 title = "Блог на github + hugo + netlify"
-#banner = "banners/hugo.png"
+banner = "banners/hugo.png"
 +++
 
 ### Платформа для блога
