@@ -34,3 +34,10 @@ topics = ["web"]
  * nested list
 + last list line
 
+
+## LINKS
+
+[AWS Security Best Practice white paper](https://d0.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf)
+
+`[inline link text](https://the.url.com/document.pdf)`
+

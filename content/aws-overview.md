@@ -16,6 +16,14 @@ An **Availability Zone (AZ)** is a distinct location within an AWS Region. Each 
 
 ### COMPUTING (EC2)
 
+https://cloudacademy.com/blog/aws-ami-hvm-vs-pv-paravirtual-amazon/
+HVM (hardware virtual machine)- modern type of virtualization, recommended now,
+PV (paravirtualization) -  older than HVM, you need a region-specific kernel object for each Linux instance for PV VM, .
+
+##### AMI
+To get ami id, you can search Amazon Marketplace https://aws.amazon.com/marketplace/
+or use Ubuntu images catalog http://cloud-images.ubuntu.com/locator/ec2/
+
 
 ### NETWORK
 A Virtual Private Cloud (VPC) is a virtual network dedicated to a single AWS account. It is logically isolated from other virtual networks in the AWS cloud,
