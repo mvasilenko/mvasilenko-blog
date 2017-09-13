@@ -11,7 +11,7 @@ banner = "banners/hugo.png"
 
 Платформа для блога - hugo (генератор статических сайтов) + github (хранение материалов блога) + netlify (хостинг).
 Хостинг - бесплатен, SSL-сертификат от Letsencrypt на произвольное имя.
-
+Тема - слегка модифицированная hugo icarus, взята с http://kencochrane.net
 
 ### Workflow
 

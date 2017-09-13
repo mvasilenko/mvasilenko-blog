@@ -40,3 +40,8 @@ Object consist of:
   * Access Control Lists
   * Torrent (S3 supports bittorent protocol)
 
+S3 charges for:
+
+* storage
+* requests
+* storage management pricing (tags to track costs)
