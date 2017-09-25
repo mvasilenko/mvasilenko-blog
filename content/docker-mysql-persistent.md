@@ -47,13 +47,20 @@ docker stop mysql-test
 docker rm mysql-test
 ```
 
-And restart it with `--detach` flag, and volume `/opt/mysql-data` mounted from host for the mysql data directory
+For persistent data, we need to create volume
+
+```
+docker volume create --name=mysql-data
+docker volume ls
+docker volume inspect mysql-data
+```
+
+Restart container with `--detach` flag, and volume `mysql-data` mounted from host for the host docker directory
 
 
 ```
-mkdir -p /opt/mysql-data
 docker run --detach --name=mysql-test --env="MYSQL_ROOT_PASSWORD=mypassword" \
-       --volume=/opt/mysql-data:/var/lib/mysql mysql
+       --volume=mysql-data:/var/lib/mysql mysql
 sleep 5s
 # mysql container logs
 docker logs mysql-test
@@ -84,6 +91,38 @@ docker run --name python-test --link mysql-test:mysql python cat /etc/hosts
 [skip]
 172.17.0.2      mysql-test 8f73b4cfadce
 ```
+
+
+`docker-compose.yml`
+
+```
+version: '2'
+
+services:
+
+  bot:
+    image: mvasilenko/telegram-bot-kievradar
+    build: .
+    command: /tmp/telegram_bot_kievradar.py
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      - TOKEN_BOT=${TOKEN_BOT}
+  db:
+    image: mysql
+    restart: always
+    container_name: telegram-bot-kievradar-db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+volumes:
+  mysql-data:
+    driver: "local"
+```
+
 
 Based on
 
