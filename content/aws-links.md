@@ -5,8 +5,11 @@ tag: ["aws", "overview"]
 categories: ["aws"]
 topics: ["aws"]
 banner: "banners/aws.png"
+#draft: yes
 ---
 
 Links to articles about AWS
 
 https://fizalihsan.github.io/technology/aws.html - long, very well structured detailed overview
+
+http://www.bogotobogo.com/DevOps/AWS/aws-CodeDeploy-Deploy-an-Application-from-GitHub.php
