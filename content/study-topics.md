@@ -21,5 +21,9 @@ draft: true
   * Cassandra
 
 * Provisioning
-  * Terraform
+  * terraform
+  * ansible
+  * vagrant
+  * puppet
+  * chef
 
