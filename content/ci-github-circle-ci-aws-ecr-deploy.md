@@ -1,7 +1,7 @@
 ---
 title: "Simple working example github circle ci docker aws ecr deploy"
 date: 2017-09-29T17:53:31+03:00
-tag: ["aws", "ecr", "docker", "github"]
+tag: ["aws", "ecr", "ecr", "docker", "github"]
 categories: ["aws", "ci", "docker"]
 topics: ["aws"]
 banner: "banners/aws.png"
@@ -9,8 +9,8 @@ banner: "banners/aws.png"
 
 
 Simple example for CI pipeline - github commit, attached hook runs runs docker image build @ circle ci,
-pushes docker image to the AWS ECR docker registry,
-and deploys is to the AWS ECR cluster as a service.
+pushes docker image to the AWS ECS docker registry,
+and deploys is to the AWS ECS cluster as a service.
 
 https://github.com/mvasilenko/telegram-bot-kievradar
 
@@ -115,8 +115,8 @@ Build the docker image locally
 ```
 
 
-Login to AWS ECR docker repository, tag locally built image,
-push it to the AWS ECR repository
+Login to AWS ECS docker repository, tag locally built image,
+push it to the AWS ECS repository
 
 ```
       - deploy:
@@ -157,7 +157,7 @@ Describe the task template and fill it with our account and app data.
 ```
 
 
-Register task defintion at AWS ECR service, and update our service revision by bumping revision number.
+Register task defintion at AWS ECS service, and update our service revision by bumping revision number.
 
 ```
             # Register task definition
