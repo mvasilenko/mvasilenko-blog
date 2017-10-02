@@ -170,3 +170,6 @@ Register task defintion at AWS ECS service, and update our service revision by b
             aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --task-definition "$TASK":"$revision"
 ```
 
+When tests are finished, don't forget to check for running instances, unneeded volumes and obsolete snapshots, and delete them,
+or they will affect your monthly bill.
+
