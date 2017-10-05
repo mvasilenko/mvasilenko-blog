@@ -20,3 +20,7 @@ watch out for Key_reads / Key_read_requests ratio, with optimal value < 0.01
 * table_cache (table_open_cache) - cache MyISAM tables, good value = tables count x 10, Opened_tables value = tables opened without cache
 * thread_cache - thread pool size, needs to be sufficient, for NOT creating thread on every connection
 * query_cache_size - 32-512MB, important for applications without own cache, allocated at MySQL start
+
+Good post with tuning examples
+
+https://habrahabr.ru/post/262623/
