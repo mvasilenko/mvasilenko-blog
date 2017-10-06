@@ -173,3 +173,17 @@ Register task defintion at AWS ECS service, and update our service revision by b
 When tests are finished, don't forget to check for running instances, unneeded volumes and obsolete snapshots, and delete them,
 or they will affect your monthly bill.
 
+
+basicaly the same done with other CI - codeship
+
+https://documentation.codeship.com/pro/continuous-deployment/aws/
+
+
+another link
+
+https://karthikv.net/articles/circleci-docker-flow/
+
+
+CirceCI official procedure for building docker image
+
+https://circleci.com/blog/how-to-build-a-docker-image-on-circleci-2-0/
