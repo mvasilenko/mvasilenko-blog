@@ -9,7 +9,7 @@ banner: "banners/kubernetes.png"
 ---
 
 
-Kubernetes concepts
+KUBERNETES CONCEPTS
 
 Pod - container group, which can share
 
@@ -18,6 +18,9 @@ Pod - container group, which can share
 * underlying hardware
 
 ![Kubernetes architecture](https://cdn.yongbok.net/ruo91/architecture/k8s/v1.1/kubernetes_architecture.png)
+
+
+
 
 NETWORKING
 
@@ -31,4 +34,6 @@ DOCKER NETWORKING MODEL
 
 Default docker networking model - virtual bridge docker0, one veth (eth0 inside in the ontatiner) + one private /24 subnet per container.
 Visibility is limited to the docker host machine.
+
+
 

@@ -8,6 +8,15 @@ draft: true
 banner: "banners/bash.png"
 ---
 
+show http requests in tcpdump
+
+`tcpdump -n -S -s 0 -A 'tcp dst port 80' | grep -B3 -A10 "GET /some-path"`
+
+Rsync over SSH
+
+`rsync -avz -e "ssh" local-dir remote.host:/remote-dir`
+
+
 Git checkout locally deleted files
 
 `git ls-files -d | xargs git checkout --`
