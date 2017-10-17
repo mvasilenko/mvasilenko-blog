@@ -12,3 +12,13 @@ banner: "banners/kubernetes.png"
 KUBERNETES on GCE notes
 
 http://kubernetes.github.io/docs/getting-started-guides/gce/
+
+`gcloud config list project`
+
+List all services including system
+
+`kubectl get --all-namespaces services`
+
+List all pods include system
+
+`kubectl get --all-namespaces pods`

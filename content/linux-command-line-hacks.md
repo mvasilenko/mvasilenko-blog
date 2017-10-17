@@ -8,25 +8,45 @@ draft: true
 banner: "banners/bash.png"
 ---
 
-show http requests in tcpdump
+# Change ens160 & ens192 to eth0 & eth1
+
+Open `/etc/default/grub` and change line `GRUB_CMDLINE_LINUX=""` to `GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"`
+
+```
+sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+```
+
+Re-generate config `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+
+Edit network config 
+
+```
+sed -i 's/ens160/eth0/g' /etc/network/interfaces
+sed -i 's/ens192/eth1/g' /etc/network/interfaces
+```
+
+http://www.itzgeek.com/how-tos/mini-howtos/change-default-network-name-ens33-to-old-eth0-on-ubuntu-16-04.html
+
+
+# Show http requests in tcpdump
 
 `tcpdump -n -S -s 0 -A 'tcp dst port 80' | grep -B3 -A10 "GET /some-path"`
 
-Rsync over SSH
+# Rsync over SSH
 
 `rsync -avz -e "ssh" local-dir remote.host:/remote-dir`
 
 
-Git checkout locally deleted files
+# Git checkout locally deleted files
 
 `git ls-files -d | xargs git checkout --`
 
-grep string1 OR string2 in filename
+# Grep string1 OR string2 in filename
 
 `grep -E "string1|string2" filename`
 
 
-Generating self-signed SSL certificates
+# Generating self-signed SSL certificates
 
 ```
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=sentry.local"
