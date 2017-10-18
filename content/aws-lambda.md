@@ -15,3 +15,7 @@ available for your code to use - 500MB.
 
 Lambda is stateless, persistent data must be stored at DynamoDB or RDS. Lambda writes logs to CloudWatch.
 
+
+# Static site hosting
+
+`aws s3 sync s3://wildrydes-us-east-1/WebApplication/1_StaticWebHosting/website s3://YOUR_BUCKET_NAME --region YOUR_BUCKET_REGION`

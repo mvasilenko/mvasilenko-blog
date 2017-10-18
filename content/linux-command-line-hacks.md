@@ -8,6 +8,16 @@ draft: true
 banner: "banners/bash.png"
 ---
 
+# List apache httpd modules compiled in
+
+`apache2ctl -M`
+
+
+# Remove ubuntu ubuntu-release-upgrader-core, CPU hog
+
+`apt-get remove ubuntu-release-upgrader-core`
+
+
 # Change ens160 & ens192 to eth0 & eth1
 
 Open `/etc/default/grub` and change line `GRUB_CMDLINE_LINUX=""` to `GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"`
