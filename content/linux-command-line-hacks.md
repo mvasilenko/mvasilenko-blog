@@ -4,9 +4,14 @@ date: 2017-09-11T17:58:06+03:00
 tag: ["bash", "linux"]
 categories: ["bash"]
 topics: ["bash"]
-draft: true
+draft: false
 banner: "banners/bash.png"
 ---
+
+# copy ssh key on different port than 22
+
+`ssh-copy-id "user@host -p 8129"`
+
 
 # List apache httpd modules compiled in
 
