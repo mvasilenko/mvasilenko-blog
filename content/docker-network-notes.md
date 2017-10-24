@@ -1,43 +1,12 @@
 ---
-title: "Docker notes"
-date: 2017-10-05T11:53:31+03:00
-draft: true
-tag: ["docker", "containers"]
+title: "Docker network notes #1"
+date: 2017-10-24T11:53:31+03:00
+draft: false
+tag: ["docker", "containers", "networking"]
 categories: ["docker"]
 topics: ["docker"]
 banner: "banners/docker.png"
 ---
-
-# Docker notes
-
-Enable docker on ubuntu and add current user to docker group
-```
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo systemctl enable docker
-```
-
-# docker machine
-
-`docker-machine` - tool for provisioning and managing dockerized hosts
-
-`docker-machine create -d virtualbox default` - create virtual host
-
-`docker-machine env default` - outputs
-
-```
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.99.100:2376"
-export DOCKER_CERT_PATH="/home/ubuntu/.docker/machine/machines/default"
-export DOCKER_MACHINE_NAME="default"
-# Run this command to configure your shell:
-# eval $(docker-machine env default)
-
-```
-
-ok, we've booted minimal docker box in virtualbox, we can ssh to it by 
-`docker-machine ssh default` and run Docker hello world inside it by
-`docker run --rm hello-world`
 
 
 # DOCKER NETWORKING
@@ -162,7 +131,60 @@ Chain DOCKER (2 references)
 
 #
 
-let's try
+let's try to run nginx container named `demo` and map port 8080 to container port 80,
+this will install iptables rules for those ports
+
+```
+sudo docker run -d -p 8080:80 --name demo nginx
+
+sudo docker inspect --format {{.NetworkSettings.IPAddress}} demo
+172.17.0.4
+
+docker port demo
+80/tcp -> 0.0.0.0:8080
+
+sudo iptables -t nat -L -nv
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+46416 2414K DOCKER     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain OUTPUT (policy ACCEPT 1 packets, 62 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    1    60 DOCKER     all  --  *      *       0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
+
+Chain POSTROUTING (policy ACCEPT 1 packets, 62 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+   84  5366 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0
+    0     0 MASQUERADE  tcp  --  *      *       172.17.0.4           172.17.0.4           tcp dpt:80
+
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0
+    0     0 DNAT       tcp  --  !docker0 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:8080 to:172.17.0.4:80
+
+```
+
+`docker network inspect bridge` - default docker0 configuration
+
+
+Let's run two containers, create new `demo-bridge` network with type `bridge`,
+connect two containers `test1` and `test2` to `demo-bridge` network, and test connectivity
+
+```
+docker run -d --name test1  busybox sh -c "while true;do sleep 3600;done"
+docker run -d --name test2  busybox sh -c "while true;do sleep 3600;done"
+docker network create -d bridge demo-bridge
+docker network connect demo-bridge test1
+docker exec test1 ip a|grep global
+    inet 172.19.0.2/16 scope global eth1
+docker exec -it test1 ping -c1 172.19.0.3
+PING 172.19.0.3 (172.19.0.3): 56 data bytes
+64 bytes from 172.19.0.3: seq=0 ttl=64 time=0.156 ms
+
+```
 
 
 # misc links
