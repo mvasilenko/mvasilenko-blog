@@ -31,3 +31,15 @@ git checkout newbranch    # Go to the new branch that still has the desired comm
 ```
 
 https://stackoverflow.com/questions/1628563/move-the-most-recent-commits-to-a-new-branch-with-git
+
+
+https://stackoverflow.com/questions/41283955/github-keeps-saying-this-branch-is-x-commits-ahead-y-commits-behind
+
+```
+git remote add upstream https://github/upstream/repo.git
+
+# sync changes from upstream
+
+git pull --rebase upstream master
+git push --force-with-lease origin master
+```

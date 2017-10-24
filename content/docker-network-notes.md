@@ -167,25 +167,49 @@ Chain DOCKER (2 references)
 
 ```
 
+# docker networking bridge mode example
+
 `docker network inspect bridge` - default docker0 configuration
 
 
 Let's run two containers, create new `demo-bridge` network with type `bridge`,
-connect two containers `test1` and `test2` to `demo-bridge` network, and test connectivity
+connect two containers `test1` and `test2` to `demo-bridge` network, test connectivity,
+and check iptables rules
 
 ```
 docker run -d --name test1  busybox sh -c "while true;do sleep 3600;done"
 docker run -d --name test2  busybox sh -c "while true;do sleep 3600;done"
+
 docker network create -d bridge demo-bridge
 docker network connect demo-bridge test1
+
 docker exec test1 ip a|grep global
     inet 172.19.0.2/16 scope global eth1
+
 docker exec -it test1 ping -c1 172.19.0.3
 PING 172.19.0.3 (172.19.0.3): 56 data bytes
 64 bytes from 172.19.0.3: seq=0 ttl=64 time=0.156 ms
 
+sudo iptables -t nat -L -nv
+
+Chain POSTROUTING (policy ACCEPT 145 packets, 9114 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 MASQUERADE  all  --  *      !br-cb2b0861f1a0  172.19.0.0/16        0.0.0.0/0
+    0     0 MASQUERADE  all  --  *      !br-24a0ff0b2a0b  172.18.0.0/16        0.0.0.0/0
+
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    1    84 RETURN     all  --  br-cb2b0861f1a0 *       0.0.0.0/0            0.0.0.0/0
+    0     0 RETURN     all  --  br-24a0ff0b2a0b *       0.0.0.0/0            0.0.0.0/0
+
+
 ```
 
+# docker networking host mode example
+
+`docker run -d --name test3 --net=host centos:7 /bin/bash -c "while true; do sleep 3600; done"`
+
+in host mode, container use the same ip/mac as host, possible exposing container to external network
 
 # misc links
 
