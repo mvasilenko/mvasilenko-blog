@@ -1,7 +1,7 @@
 ---
 title: "Docker notes"
 date: 2017-10-05T11:53:31+03:00
-draft: true
+draft: false
 tag: ["docker", "containers"]
 categories: ["docker"]
 topics: ["docker"]
@@ -17,6 +17,10 @@ sudo usermod -aG docker $USER
 sudo systemctl enable docker
 ```
 
+# Docker cleanup
+
+`docker container prune` - remove stopped containers
+`docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi` - remove unused images
 # docker machine
 
 `docker-machine` - tool for provisioning and managing dockerized hosts
