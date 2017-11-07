@@ -17,6 +17,9 @@ sudo usermod -aG docker $USER
 sudo systemctl enable docker
 ```
 
+list all exited containers - `docker ps -aq -f status=exited`
+remove all stopped containers - `docker ps -aq --no-trunc | xargs docker rm`
+
 # docker machine
 
 `docker-machine` - tool for provisioning and managing dockerized hosts

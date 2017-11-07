@@ -81,3 +81,5 @@ CN = FQDN or IP address
 
 Adding self-signed certificate to nginx
 
+# print last 2 random digits with awk
+`cat file.txt |cut -d"|" -f1|sort -rn -k1|awk '{printf("%s 1.%.0f\n",$1,int(100*rand()))}'`

@@ -35,6 +35,8 @@ https://stackoverflow.com/questions/1628563/move-the-most-recent-commits-to-a-ne
 
 https://stackoverflow.com/questions/41283955/github-keeps-saying-this-branch-is-x-commits-ahead-y-commits-behind
 
+x commits ahead, y commits behind
+
 ```
 git remote add upstream https://github/upstream/repo.git
 
@@ -43,3 +45,9 @@ git remote add upstream https://github/upstream/repo.git
 git pull --rebase upstream master
 git push --force-with-lease origin master
 ```
+
+
+# undo git pull
+
+git pull is the same as git fetch + git merge
+git reset --hard 1234abcd where 1234abcd is the hash of the desired commit.
