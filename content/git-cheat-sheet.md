@@ -8,6 +8,16 @@ banner: "banners/git.png"
 draft: false
 ---
 
+Track remote branches
+
+`for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done`
+
+
+If you wish to set tracking information for this branch you can do so with:
+
+`git branch --set-upstream-to=origin/<branch> test_branch`
+
+
 https://www.devroom.io/2011/07/05/git-squash-your-latests-commits-into-one/
 
 Merge three last commits into one

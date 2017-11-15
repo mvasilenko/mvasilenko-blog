@@ -72,3 +72,9 @@ K8s service is a REST object, defines logical set of pods, and policy by which t
     }
 }
 ```
+
+
+# K8S on vmware
+
+https://blog.inkubate.io/deploy-kubernetes-on-vsphere-with-kubo/
+
