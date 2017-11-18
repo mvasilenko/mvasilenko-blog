@@ -488,4 +488,80 @@ NAME        READY     STATUS    RESTARTS   AGE
 podintest   1/1       Running   0          4s
 ```
 
+# Health checks
+
+You can add livenessProbe section to the pod definition
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hc
+spec:
+  containers:
+  - name: sise
+    image: mhausenblas/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    livenessProbe:
+      initialDelaySeconds: 2
+      periodSeconds: 5
+      httpGet:
+        path: /health
+        port: 9876
+```
+
+```
+    Liveness:		http-get http://:9876/health delay=2s timeout=1s period=5s #success=1 #failure=3
+```
+
+We can use readinessProbe instead of livenessProbe in yaml pod definition for slow starting containers
+
+```
+-    livenessProbe:
+-      initialDelaySeconds: 2
+-      periodSeconds: 5
++    readinessProbe:
++      initialDelaySeconds: 10
+```
+
+# Environment variables
+
+We can pass environment variables into pods
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envs
+spec:
+  containers:
+  - name: sise
+    image: mhausenblas/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    env:
+    - name: SIMPLE_SERVICE_VERSION
+      value: "1.0"
+```
+
+and check it from within the cluster
+
+```
+minishift ssh
+curl 172.17.0.12:9876/info
+
+{"host": "172.17.0.12:9876", "version": "1.0", "from": "172.17.0.1"}d
+
+curl 172.17.0.12:9876/env
+
+{"version": "1.0", "env": "{'HOSTNAME': 'envs', 'THESVC_PORT_80_TCP_PORT': '80', 'THESVC_PORT_80_TCP_ADDR': '172.30.160.167', 'KUBERNETES_PORT_53_UDP_PROTO': 'udp', 'PATH': '/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'KUBERNETES_SERVICE_PORT_DNS': '53', 'KUBERNETES_PORT_53_TCP': 'tcp://172.30.0.1:53', 'KUBERNETES_SERVICE_PORT': '443', 'LANG': 'C.UTF-8', 'KUBERNETES_PORT_53_TCP_ADDR': '172.30.0.1', 'PYTHON_VERSION': '2.7.13', 'KUBERNETES_SERVICE_HOST': '172.30.0.1', 'PYTHON_PIP_VERSION': '9.0.1', 'REFRESHED_AT': '2017-04-24T13:50', 'THESVC_PORT_80_TCP_PROTO': 'tcp', 'KUBERNETES_PORT_53_TCP_PROTO': 'tcp', 'KUBERNETES_PORT_53_TCP_PORT': '53', 'HOME': '/root', 'KUBERNETES_PORT_443_TCP_ADDR': '172.30.0.1', 'GPG_KEY': 'C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF', 'THESVC_PORT': 'tcp://172.30.160.167:80', 'THESVC_PORT_80_TCP': 'tcp://172.30.160.167:80', 'KUBERNETES_SERVICE_PORT_DNS_TCP': '53', 'KUBERNETES_PORT_53_UDP_ADDR': '172.30.0.1', 'KUBERNETES_PORT_53_UDP': 'udp://172.30.0.1:53', 'KUBERNETES_PORT': 'tcp://172.30.0.1:443', 'KUBERNETES_SERVICE_PORT_HTTPS': '443', 'KUBERNETES_PORT_53_UDP_PORT': '53', 'THESVC_SERVICE_HOST': '172.30.160.167', 'KUBERNETES_PORT_443_TCP_PROTO': 'tcp', 'SIMPLE_SERVICE_VERSION': '1.0', 'KUBERNETES_PORT_443_TCP': 'tcp://172.30.0.1:443', 'KUBERNETES_PORT_443_TCP_PORT': '443', 'THESVC_SERVICE_PORT': '80'}"}
+
+oc exec envs -c sise -- printenv
+
+SIMPLE_SERVICE_VERSION=1.0
+[skip]
+```
+
+
 
