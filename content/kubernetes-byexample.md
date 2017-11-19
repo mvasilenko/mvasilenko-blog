@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes notes"
 date: 2017-10-10T11:53:31+03:00
-draft: true
+draft: false
 tag: ["kubernetes", "openshift"]
 categories: ["kubernetes"]
 topics: ["kubernetes"]
@@ -772,3 +772,114 @@ kubectl logs -p oneshot
 2
 1
 '''
+
+# Kubernetes jobs
+
+job - supervisor for pods, carrying out batch processes, calculation or backups
+
+Let's create job
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: countdown
+spec:
+  template:
+    metadata:
+      name: countdown
+    spec:
+      containers:
+      - name: counter
+        image: centos:7
+        command:
+         - "bin/bash"
+         - "-c"
+         - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+      restartPolicy: Never
+```
+
+```bash
+oc get jobs
+
+NAME        DESIRED   SUCCESSFUL   AGE
+countdown   1         1            5s
+
+oc get pods --show-all|grep countd
+
+countdown-jx1r0   0/1       Completed          0          48s
+
+oc describe job countdown
+
+Name:		countdown
+Namespace:	myproject
+Selector:	controller-uid=e8c0bf97-cd0a-11e7-ae30-d2912c4de612
+Labels:		controller-uid=e8c0bf97-cd0a-11e7-ae30-d2912c4de612
+		job-name=countdown
+Annotations:	<none>
+Parallelism:	1
+Completions:	1
+Start Time:	Sun, 19 Nov 2017 11:20:39 +0200
+Pods Statuses:	0 Running / 1 Succeeded / 0 Failed
+[skip]
+Events:
+  FirstSeen	LastSeen	Count	From		SubObjectPath	Type		Reason			Message
+  ---------	--------	-----	----		-------------	--------	------			-------
+  1m		1m		1	job-controller			Normal		SuccessfulCreate	Created pod: countdown-jx1r0
+
+oc logs countdown-jx1r0
+
+9
+8
+7
+6
+5
+4
+3
+2
+
+oc delete job countdown
+
+```
+
+# Kubernetes nodes
+
+Nodes - are worker machines, they can be labeled
+
+```oc get nodes
+
+NAME        STATUS    AGE       VERSION
+localhost   Ready     19h       v1.6.1+5115d708d7
+```
+oc label nodes localhost shouldrun=true
+
+node "localhost" labeled
+
+oc get nodes --show-labels
+
+NAME        STATUS    AGE       VERSION             LABELS
+localhost   Ready     19h       v1.6.1+5115d708d7   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=localhost,shouldrun=true
+```
+
+Let's deploy pod on the labeled node
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: onspecificnode
+spec:
+  containers:
+  - name: sise
+    image: mhausenblas/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+  nodeSelector:
+    shouldrun: here
+```
+
+change label value
+
+```bash
+oc label node localhost shouldrun=here --overwrite
+```
