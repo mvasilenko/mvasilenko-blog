@@ -563,5 +563,93 @@ SIMPLE_SERVICE_VERSION=1.0
 [skip]
 ```
 
+# Kubernetes volumes
 
+kubernetes volume - it's a directory, which preseres it's contents during restart
 
+Volume types:
+* node-local types such as emptyDir or hostPath
+* file-sharing types such as nfs
+* cloud provider-specific types like awsElasticBlockStore, azureDisk, or gcePersistentDisk
+* distributed file system types, for example glusterfs or cephfs
+* special-purpose types like secret, gitRepo
+* special type of volume is PersistentVolume
+
+Let's deploy a pod with volume type `emptyDir`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sharevol
+spec:
+  containers:
+  - name: c1
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "sleep 10000"
+    volumeMounts:
+      - name: xchange
+        mountPath: "/tmp/xchange"
+  - name: c2
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "sleep 10000"
+    volumeMounts:
+      - name: xchange
+        mountPath: "/tmp/data"
+  volumes:
+  - name: xchange
+    emptyDir: {}
+```
+
+```
+oc describe pod sharevol
+
+[skip]
+Containers:
+  c1:
+...
+    Mounts:
+      /tmp/xchange from xchange (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-hdv67 (ro)
+
+  c2:
+...
+    Mounts:
+      /tmp/data from xchange (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-hdv67 (ro)
+[skip]
+Volumes:
+  xchange:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+```
+
+Let's get into the containers and check that volume is shared
+
+```bash
+oc exec sharevol -c c1 -it -- bash
+
+mount |grep xc
+
+/dev/sda1 on /tmp/xchange type ext4 (rw,relatime,data=ordered)
+
+echo 'test data' >/tmp/xchange/test.txt
+exit
+
+oc exec sharevol -c c2 -it -- bash
+mount|grep data
+
+/dev/sda1 on /tmp/data type ext4 (rw,relatime,data=ordered)
+
+cat /tmp/data/test.txt
+test data
+
+# Kubernetes secrets
+
+```
