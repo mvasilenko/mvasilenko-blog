@@ -649,7 +649,126 @@ mount|grep data
 
 cat /tmp/data/test.txt
 test data
+```
 
 # Kubernetes secrets
 
+* Secrets are namespaced objects, that is, exist in the context of a namespace.
+* You can access them via a volume or an environment variable from a container running in a pod
+* The secret data on nodes is stored in tmpfs volumes
+* A per-secret size limit of 1MB exists
+* The API server stores secrets as plaintext in etcd
+
+```bash
+ls|md5 > apikey.txt
+oc create secret generic apikey --from-file=./apikey.txt
+oc describe secrets/apikey
 ```
+
+Let's use created secret in the pod
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consumesec
+spec:
+  containers:
+  - name: shell
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "sleep 10000"
+    volumeMounts:
+      - name: apikeyvol
+        mountPath: "/tmp/apikey"
+        readOnly: true
+  volumes:
+  - name: apikeyvol
+    secret:
+      secretName: apikey
+```
+
+```bash
+oc create -f pod-secrets.yaml
+pod "consumesec" created
+
+oc exec consumesec -c shell -it -- bash
+mount|grep key
+
+tmpfs on /tmp/apikey type tmpfs (ro,relatime)
+
+[root@consumesec /]# cat /tmp/apikey/apikey.txt
+35121c676b0b6ad51bb5187f76083dca
+```
+
+The service accounts Kubernetes automatically creates secrets containing credentials for accessing the API and modifies your pods to use this type of secret.
+
+
+# Logging
+
+Let's create pod that writes to stdout and stderr
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: logme
+spec:
+  containers:
+  - name: gen
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "while true; do echo $(date) | tee /dev/stderr; sleep 1; done"
+```
+
+Now we can see it's logs, in tail fashion
+
+```bash
+kubectl logs --tail=5 logme -c gen
+Sun Nov 19 09:10:19 UTC 2017
+Sun Nov 19 09:10:20 UTC 2017
+Sun Nov 19 09:10:20 UTC 2017
+Sun Nov 19 09:10:21 UTC 2017
+Sun Nov 19 09:10:21 UTC 2017
+
+kubectl logs -f logme --since=10s -c gen
+Sun Nov 19 09:12:46 UTC 2017
+Sun Nov 19 09:12:47 UTC 2017
+Sun Nov 19 09:12:47 UTC 2017
+Sun Nov 19 09:12:48 UTC 2017
+Sun Nov 19 09:12:48 UTC 2017
+```
+
+You can also view logs from the pods that have already completed their lifecycle
+
+'''yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oneshot
+spec:
+  containers:
+  - name: gen
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+'''
+
+'''bash
+kubectl logs -p oneshot
+9
+8
+7
+6
+5
+4
+3
+2
+1
+'''
