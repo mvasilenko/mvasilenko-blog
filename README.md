@@ -1,5 +1,3 @@
 # mvasilenko-blog
-
-блог Михаила Василенко
-
-записки о технологиях и не только
+Mikhail Vasylenko blog
+notes about technology
