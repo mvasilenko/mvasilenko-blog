@@ -1,5 +1,6 @@
-baseurl = "https://mvasilenko.tk/"
 languageCode = "en-us"
+#baseurl = "https://mvasilenko.tk/"
+baseurl = "/"
 title = "Mikhail Vasilenko blog"
 # Enable comments by entering your Disqus shortname #mvasilenko
 #disqusShortname = ""
@@ -91,3 +92,4 @@ theme = "hugo-icarus"
     categories = true
     tags = true
     tag_cloud = true
+
