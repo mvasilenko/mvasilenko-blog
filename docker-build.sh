@@ -8,7 +8,7 @@ if grep -q 'auths": {}' ~/.docker/config.json ; then
 fi
 export TAG=$(git log -1 --format=%H)
 export CACHEBUST=`git ls-remote ${REPO_URL} | grep refs/heads | cut -f 1` && \
-echo $CACHEBUST
+echo CACHEBUST=$CACHEBUST
 docker build -t ${DOCKER_HUB_USERNAME}/${APP}:${TAG} . --build-arg CACHEBUST=${CASHEBUST} # was=$(date +%s)
 docker tag ${DOCKER_HUB_USERNAME}/${APP}:${TAG} ${DOCKER_HUB_USERNAME}/${APP}:latest
 docker push ${DOCKER_HUB_USERNAME}/${APP}:latest

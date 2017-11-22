@@ -10,6 +10,8 @@ draft: false
 
 Track remote branches
 
+`git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git`
+
 `for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done`
 
 

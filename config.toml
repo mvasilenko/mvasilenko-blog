@@ -9,7 +9,7 @@ googleAnalytics = "UA-96094328-1"
 # Define the number of posts per site
 paginate = 10
 #footnotereturnlinkcontents = ""
-theme = "hugo-icarus"
+theme = "hugo-icarus-theme"
 
 
 [permalinks]
@@ -27,7 +27,8 @@ theme = "hugo-icarus"
 
     # Format dates with Go's time formatting
     date_format = "2006-01-02"
-
+    mainSections = ["post"]
+    
 # Create custom menu entries by defining a label and a link for
 # them. Since you can also link posts, you've the option the
 # place the links before or after them.
