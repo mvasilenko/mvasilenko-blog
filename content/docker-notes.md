@@ -50,7 +50,7 @@ export DOCKER_MACHINE_NAME="default"
 
 ```
 
-ok, we've booted minimal docker box in virtualbox, we can ssh to it by 
+ok, we've booted minimal docker box in virtualbox, we can ssh to it by
 `docker-machine ssh default` and run Docker hello world inside it by
 `docker run --rm hello-world`
 
@@ -175,9 +175,27 @@ Chain DOCKER (2 references)
     0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0
 ```
 
-#
+# docker cache invalidation
 
-let's try
+```
+ARG CACHEBUST=1
+RUN git clone https://github.com/octocat/Hello-World.git
+```
+
+On the command line:
+
+`docker build -t your-image --build-arg CACHEBUST=$(date +%s) .`
+
+or even better
+
+```
+export CACHEBUST=`git ls-remote https://username@github.com/username/myRepo.git | grep refs/heads | cut -f 1` && \
+echo $CACHEBUST && \
+docker build -t myDockerUser/myDockerImage \
+   --build-arg blah=blue \
+   --build-arg CACHEBUST=$CACHEBUST \
+   .
+```
 
 
 # misc links
