@@ -21,7 +21,8 @@ RUN wget --quiet https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION
 ARG CACHEBUST=1
 RUN git clone https://github.com/${GITHUB_USERNAME}/${DOCKER_IMAGE_NAME}.git
 
-RUN hugo -s ${DOCKER_IMAGE_NAME} -d /usr/share/nginx/html/
+RUN hugo -s ${DOCKER_IMAGE_NAME} -d /usr/share/nginx/html
+RUN ls -la /usr/share/nginx/html
 # --uglyURLs
 
 CMD nginx -g "daemon off;"
