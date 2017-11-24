@@ -5,7 +5,7 @@ tag: ["provisioning", "config management", "ansible"]
 categories: ["config management"]
 topics: ["ansible"]
 banner: "banners/ansible.png"
-draft: true
+draft: false
 ---
 
 Ansible check for failed step during executing playbook - 

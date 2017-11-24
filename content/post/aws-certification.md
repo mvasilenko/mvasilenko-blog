@@ -1,7 +1,7 @@
 ---
 title: "Aws Certification"
 date: 2017-09-12T11:53:31+03:00
-draft: true
+draft: false
 tag: ["aws", "overview"]
 categories: ["aws"]
 topics: ["aws"]
