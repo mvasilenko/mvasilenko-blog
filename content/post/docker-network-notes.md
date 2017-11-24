@@ -1,5 +1,5 @@
 ---
-title: "Docker network notes #1"
+title: "Docker network notes 1"
 date: 2017-10-24T11:53:31+03:00
 draft: false
 tag: ["docker", "containers", "networking"]
