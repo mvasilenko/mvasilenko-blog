@@ -9,9 +9,10 @@ banner: "banners/websockets.png"
 ---
 
 
-How websocket works
+Websockets are upgraded HTML connections
 
 Client sends 
+
 
 ```
 GET /mychat HTTP/1.1
@@ -24,7 +25,9 @@ Sec-WebSocket-Version: 13
 Origin: http://example.com
 ```
 
+
 Server replies:
+
 
 ```
 HTTP/1.1 101 Switching Protocols
@@ -45,5 +48,9 @@ http://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html
 
 	
 You need to enable mod_proxy and mod_proxy_wstunnel modules and
-add ProxyPass /wss2/ ws://YOUR_DOMAIN:WS_PORT/ in httpd.conf file.
-Use secured scheme w/o port number url in JS call (e.g. var ws = new WebSocket("wss://YOUR_DOMAIN/wss2/NNN");
+add `ProxyPass /wss2/ ws://YOUR_DOMAIN:WS_PORT/` in `httpd.conf` file.
+
+
+Use secured scheme w/o port number url in JS call (e.g. `var ws = new WebSocket("wss://YOUR_DOMAIN/wss2/NNN")`;
+
+
