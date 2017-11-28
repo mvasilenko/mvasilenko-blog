@@ -12,4 +12,5 @@ echo CACHEBUST=$CACHEBUST
 docker build -t ${DOCKER_HUB_USERNAME}/${APP}:${TAG} --build-arg CACHEBUST=${CACHEBUST} . # was=$(date +%s)
 docker tag ${DOCKER_HUB_USERNAME}/${APP}:${TAG} ${DOCKER_HUB_USERNAME}/${APP}:latest
 docker push ${DOCKER_HUB_USERNAME}/${APP}:latest
+docker push ${DOCKER_HUB_USERNAME}/${APP}:${TAG}
 #docker rmi $(docker images --filter=reference="${DOCKER_HUB_USERNAME}/${HUGO_APP}" -q)
