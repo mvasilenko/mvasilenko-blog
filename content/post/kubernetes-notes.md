@@ -8,6 +8,7 @@ topics: ["kubernetes"]
 banner: "banners/kubernetes.png"
 ---
 
+the color is red
 
 KUBERNETES CONCEPTS
 
