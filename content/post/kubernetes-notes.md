@@ -1,8 +1,8 @@
 ---
 title: "Kubernetes notes"
-date: 2017-10-10T11:53:31+03:00
-draft: true
-tag: ["kubernetes", "networking"]
+date: 2017-11-28T11:53:31+03:00
+draft: false
+tag: ["kubernetes", "architecture"]
 categories: ["kubernetes"]
 topics: ["kubernetes"]
 banner: "banners/kubernetes.png"
@@ -73,8 +73,20 @@ K8s service is a REST object, defines logical set of pods, and policy by which t
 }
 ```
 
+# Under the hood
+
+https://github.com/jamiehannaford/what-happens-when-k8s
+
+# Deployemnts
+
+https://kumorilabs.com/blog/k8s-4-deployments-rolling-updates-canary-blue-green-kubernetes/
+
+* **rolling update** - rollout new release to an existing deployment in serial fashion, pods incrementally updated one at time, if problems detected during rollout, it is possible to pause rollout and rollback deployment to previous state
+
+* **canary deployment** - parallel deployment of a new release to the subset of users, reducing the impact if problems arise
+
+* **blue-green deployment** - parallel deployment of a new release, when all traffic gets instantaneously rerouted to from the existing Deployment, by changing the selector of the associated LoadBalancer service. If problems are detected with the new release, all traffic can be rerouted back to the original Deployment by reverting back to the original selector of the LoadBalancer service.
 
 # K8S on vmware
 
 https://blog.inkubate.io/deploy-kubernetes-on-vsphere-with-kubo/
-
