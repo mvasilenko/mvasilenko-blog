@@ -1,6 +1,6 @@
 ---
 title: "Git cheat sheet"
-date: 2017-09-15T17:53:31+03:00
+date: 2017-11-28T17:53:31+03:00
 tag: ["git", "development"]
 categories: ["development"]
 topics: ["development"]
@@ -8,12 +8,27 @@ banner: "banners/git.png"
 draft: false
 ---
 
-Track remote branches
+
+# Moving backward and forward in commit history
+
+`git reset HEAD~3` - move 3 commit backwards
+`git reflog` - full commit history
+`git reset 'HEAD@{x}'` - move to the specified point in commit history
+`git log --graph --decorate --oneline $(git rev-list -g --all)` - show decoraded commit history
+
+
+# Track remote branches
 
 `git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git`
 
 `for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done`
 
+
+# Delete remote branches
+
+`git push -d <remote_name> <branch_name>`
+
+`git branch -d <branch_name>`
 
 If you wish to set tracking information for this branch you can do so with:
 
