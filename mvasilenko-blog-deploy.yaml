@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: mvasilenko-blog
 spec:
+  terminationGracePeriodSeconds: 30
   replicas: 2 
   template:
     metadata:
@@ -12,5 +13,6 @@ spec:
       containers:
         - name: mvasilenko-blog
           image: mvasilenko/mvasilenko-blog:latest
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 80
