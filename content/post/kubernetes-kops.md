@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes on AWS using KOPS"
 date: 2017-10-13T11:53:31+03:00
-draft: true
+draft: false
 tag: ["kubernetes", "networking"]
 categories: ["kubernetes"]
 topics: ["kubernetes"]
@@ -23,7 +23,7 @@ set env variables
 
 ```bash
 # Must change: Your domain name that is hosted in AWS Route 53
-export DOMAIN_NAME="xalab.tk"
+export DOMAIN_NAME="domain.com"
 
 # Friendly name to use as an alias for your cluster
 export CLUSTER_ALIAS="k8s"
@@ -33,6 +33,17 @@ export CLUSTER_FULL_NAME="${CLUSTER_ALIAS}.${DOMAIN_NAME}"
 
 # AWS availability zone where the cluster will be created
 export CLUSTER_AWS_AZ="us-east-1a"
+# for automatic DNS creation
+export DNS_RECORD_PREFIX="your-app"
+export APP_NAME="your-app"
+# your app service name
+export SERVICE_NAME="your-app-svc"
+# app url - your-app.domain.com
+export APP_URL=http://${DNS_RECORD_PREFIX}.${DOMAIN_NAME}
+# docker hub credentials
+export DOCKERHUB_USERNAME=your_dockerhub_username
+export DOCKERHUB_PASSWORD=your_dockerhub_password
+
 ```
 
 create aws route53 hosted zone
@@ -286,3 +297,138 @@ spec:
   selector:
     app: your-app
 ```
+
+
+# Deployments
+
+Let's create three different versions of our app, with tags `:red` `:green` and `:blue`, and try to describe corresponding deployments and services for them:
+
+```
+kubectl create deployment ${APP_NAME}-rolling-update \ --image=${DOCKER_HUB_USERNAME}/{APP_NAME}:red
+```
+
+then, edit this deployment
+
+`kubectl edit deployment ${APP_NAME}-rolling-update`
+
+add this lines, for graceful deployment
+
+```
+spec:
+> minReadySeconds: 20
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mvasilenko-blog-rolling-update
+```
+
+```
+containers:
+- image: mvasilenko/mvasilenko-blog:red
+  imagePullPolicy: IfNotPresent
+>       ports:
+>       - containerPort: 80
+>         protocol: TCP
+  name: mvasilenko-blog
+```
+
+after changes, scale this deployment
+
+`kubectl scale deployment mvasilenko-blog-rolling-update --replicas 3`
+
+and create the service
+
+```
+kubectl expose deployment mvasilenko-blog-rolling-update \
+           --name=mvasilenko-blog-rolling-update-svc \
+           --type=LoadBalancer --port=80 --target-port=80
+```
+
+this will create new LoadBalancer, so we need to create new DNS record for it
+
+`12-create-dns-for-rolling-update.sh`
+
+
+now, let's update image with tag `:green` for that rolling-update deployment and pause rollout
+
+```
+kubectl set image deploy/mvasilenko-blog-rolling-update \
+        mvasilenko-blog=${DOCKERHUB_USERNAME}/mvasilenko-blog:green; \
+kubectl rollout pause deploy/mvasilenko-blog-rolling-update
+kubectl rollout status deploy/mvasilenko-blog-rolling-update
+```
+
+watch how many replicas has been updated, and resume deploytment
+
+`kubectl rollout resume deploy/mvasilenko-blog-rolling-update`
+
+
+# deploy and roll back, watching the history
+
+remove previous deployments, deploy again with `--record` flag
+
+`kubectl create --filename=./k8s-blog-rolling-update/ --record=true`
+
+change image
+
+`kubectl set image deployment/mvasilenko-blog-rolling-update mvasilenko-blog=mvasilenko/mvasilenko-blog:green`
+
+watch the deployment history
+
+```
+kubectl rollout history deployment/mvasilenko-blog-rolling-update
+deployments "mvasilenko-blog-rolling-update"
+
+REVISION  CHANGE-CAUSE
+1         kubectl create --filename=./k8s-blog-rolling-update/ --record=true
+2         kubectl set image deployment/mvasilenko-blog-rolling-update mvasilenko-blog=mvasilenko/mvasilenko-blog:green
+```
+
+we can undo rollout or move to the specific step
+
+`kubectl rollout undo deploy/mvasilenko-blog-rolling-update --to-revision=5`
+
+
+# canary deployment
+
+the idea is to expose new deploy in small number of replics, so only small part of users will see new app, one service for two app versions (two deployments)
+
+`kubectl create -f ./k8s-blog-canary/`
+
+then, update DNS, and count number of pods, will be 3 `red` and 1 `green`, so the traffic will be splitted in 3:1 ratio
+
+`kubectl get pods --label-columns=track`
+
+you can scale both deployments up and down
+
+`kubectl scale deployment mvasilenko-blog-red --replicas=3`
+
+
+
+# blue-green deployment
+
+the idea is to deploy one app, say `:blue` with label `color=blue`, and app `:green` with label `color=green`, and create LoadBalancer with selector `color=blue`, so all traffic will go to `blue` version
+
+to reroute all traffic, we just change the selector in service
+
+`kubectl set selector svc/hugo-app-blue-green-svc color=green`
+
+
+
+
+# hpa - horizontal pod autoscaler
+
+let's install heapster monitoring
+
+`kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.7.0.yaml`
+
+`kubectl run php-apache --image=gcr.io/google_containers/hpa-example         --requests=cpu=200m --expose --port=80`
+
+`kubectl autoscale deployment php-apache --cpu-percent=5 --min=2 --max=20`
+
+`kubectl get pods --namespace=kube-system`
+
+
+
+
+`kubectl run -i --tty load-generator --image=busybox /bin/sh`
