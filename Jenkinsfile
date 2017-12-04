@@ -1,8 +1,8 @@
 #!groovy​
-podTemplate(label: 'pod-hugo-app', containers: [
+podTemplate(label: 'mvasilenko-blog-app', containers: [
     containerTemplate(name: 'hugo', image: 'smesch/hugo', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'html-proofer', image: 'smesch/html-proofer', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'kubectl', image: 'smesch/kubectl', ttyEnabled: true, command: 'cat',
+      containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl', ttyEnabled: true, command: 'cat',
         volumes: [secretVolume(secretName: 'kube-config', mountPath: '/root/.kube')]),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat',
         envVars: [containerEnvVar(key: 'DOCKER_CONFIG', value: '/tmp/'),])],
@@ -12,16 +12,16 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
     node('pod-hugo-app') {
 
-        def DOCKER_HUB_ACCOUNT = 'smesch'
-        def DOCKER_IMAGE_NAME = 'hugo-app-jenkins'
-        def K8S_DEPLOYMENT_NAME = 'hugo-app'
+        def DOCKER_HUB_ACCOUNT = 'mvasilenko'
+        def DOCKER_IMAGE_NAME = 'mvasilenko-blog-jenkins'
+        def K8S_DEPLOYMENT_NAME = 'mvasilenko-blog'
 
         stage('Clone Hugo App Repository') {
             checkout scm
 
             container('hugo') {
                 stage('Build Hugo Site') {
-                    sh ("hugo --uglyURLs")
+                    sh ("hugo")
                 }
             }
 
@@ -33,10 +33,12 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
             container('docker') {
                 stage('Docker Build & Push Current & Latest Versions') {
-                    sh ("docker build -t ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} .")
-                    sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
-                    sh ("docker tag ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
-                    sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
+                     sh ("./docker-build.sh")
+/*                    sh ("docker build -t ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} .")
+                     sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                     sh ("docker tag ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
+                     sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
+*/
                 }
             }
 
