@@ -33,7 +33,7 @@ sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
 
 Re-generate config `sudo grub-mkconfig -o /boot/grub/grub.cfg`
 
-Edit network config 
+Edit network config
 
 ```
 sed -i 's/ens160/eth0/g' /etc/network/interfaces
@@ -41,6 +41,14 @@ sed -i 's/ens192/eth1/g' /etc/network/interfaces
 ```
 
 http://www.itzgeek.com/how-tos/mini-howtos/change-default-network-name-ens33-to-old-eth0-on-ubuntu-16-04.html
+
+# apache nginx .htaccess
+
+```
+SetEnvIf X-Forwarded-For ^172\.26\.0\.17 let_me_in
+Order allow,deny
+allow from env=let_me_in
+```
 
 
 # Show http requests in tcpdump
@@ -83,3 +91,10 @@ Adding self-signed certificate to nginx
 
 # print last 2 random digits with awk
 `cat file.txt |cut -d"|" -f1|sort -rn -k1|awk '{printf("%s 1.%.0f\n",$1,int(100*rand()))}'`
+
+
+
+# VIM hotkeys
+
+G o - move to the end of file, and insert new lines
+1 G or gg - move to the begin of file
