@@ -10,7 +10,7 @@ podTemplate(label: 'mvasilenko-blog-app', containers: [
                   hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
   ]) {
 
-    node('pod-hugo-app') {
+    node('mvasilenko-blog-app') {
 
         def DOCKER_HUB_ACCOUNT = 'mvasilenko'
         def DOCKER_IMAGE_NAME = 'mvasilenko-blog-jenkins'
