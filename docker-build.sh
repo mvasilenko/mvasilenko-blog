@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export DOCKER_HUB_USERNAME="mvasilenko"
 export APP="mvasilenko-blog"
 export REPO_URL="https://github.com/${DOCKER_HUB_USERNAME}/${APP}.git"
