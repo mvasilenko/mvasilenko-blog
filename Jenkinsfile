@@ -8,7 +8,8 @@ podTemplate(label: 'mvasilenko-blog-app', containers: [
         envVars: [containerEnvVar(key: 'DOCKER_CONFIG', value: '/tmp/'),])],
         volumes: [secretVolume(secretName: 'docker-config', mountPath: '/tmp'),
                   hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
-  ]) {
+  ]
+  ) {
 
     node('mvasilenko-blog-app') {
 
@@ -33,12 +34,15 @@ podTemplate(label: 'mvasilenko-blog-app', containers: [
 
             container('docker') {
                 stage('Docker Build & Push Current & Latest Versions') {
-                     sh ("./docker-build.sh")
-/*                    sh ("docker build -t ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} .")
-                     sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
-                     sh ("docker tag ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
-                     sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
-*/
+                    sh ("apk add --no-cache git")
+                    sh ("git rev-parse HEAD > .git/commit-id")
+                    gitCommit = readFile('.git/commit-id').trim()
+                    sh ("ls -la /tmp")
+                    sh ("echo docker build -t ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${gitCommit} .")
+                    sh ("docker build -t ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${gitCommit} .")
+                    sh ("docker tag ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${gitCommit} ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
+                    sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:latest")
+                    sh ("docker push ${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${gitCommit}")
                 }
             }
 

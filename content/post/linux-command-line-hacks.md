@@ -28,7 +28,12 @@ banner: "banners/bash.png"
 Open `/etc/default/grub` and change line `GRUB_CMDLINE_LINUX=""` to `GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"`
 
 ```
-sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+for i in {1..6};do
+
+ssh 192.168.1.4$i 'sudo sed -i "s/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"/" /etc/default/grub;
+sudo grub-mkconfig -o /boot/grub/grub.cfg;
+sudo sed -i "s/ens160/eth0/g" /etc/network/interfaces';
+done
 ```
 
 Re-generate config `sudo grub-mkconfig -o /boot/grub/grub.cfg`
