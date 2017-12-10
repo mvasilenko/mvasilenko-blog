@@ -11,17 +11,32 @@ draft: false
 
 # Moving backward and forward in commit history
 
+
 `git reset HEAD~3` - move 3 commit backwards
+
+
 `git reflog` - full commit history
+
+
 `git reset 'HEAD@{x}'` - move to the specified point in commit history
+
+
 `git log --graph --decorate --oneline $(git rev-list -g --all)` - show decoraded commit history
 
 
 # Track remote branches
 
-`git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git`
+```
+git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+```
 
-`for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done`
+
+```
+for remote in `git branch -r`
+do
+git branch --track ${remote#origin/} $remote
+done
+```
 
 
 # Delete remote branches
@@ -76,5 +91,6 @@ git push --force-with-lease origin master
 
 # undo git pull
 
-git pull is the same as git fetch + git merge
-git reset --hard 1234abcd where 1234abcd is the hash of the desired commit.
+`git pull` is the same as `git fetch` + `git merge`
+
+`git reset --hard 1234abcd` - where 1234abcd is the hash of the desired commit.
