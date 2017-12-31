@@ -197,6 +197,9 @@ docker build -t myDockerUser/myDockerImage \
    .
 ```
 
+# run with custom entry point
+
+`docker run --rm -it --entrypoint=/bin/bash IMAGE -i`
 
 # misc links
 

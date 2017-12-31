@@ -47,6 +47,10 @@ sed -i 's/ens192/eth1/g' /etc/network/interfaces
 
 http://www.itzgeek.com/how-tos/mini-howtos/change-default-network-name-ens33-to-old-eth0-on-ubuntu-16-04.html
 
+# replace key=value in config
+
+`sed -r "s/($k1 *= *\").*/\1$v1\"/" c.conf`
+
 # apache nginx .htaccess
 
 ```
