@@ -32,10 +32,12 @@ deployment vs daemonSet vs replicationController
 # RBAC notes
 
 create namespace
+
 `kubectl create namespace office`
 
 
 generate key
+
 `openssl genrsa -out employee.key 2048`
 
 
@@ -49,7 +51,9 @@ generate key
 `kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml`
 
 get token
-```kubectl -n kube-system describe $(kubectl -n kube-system \
+
+```
+kubectl -n kube-system describe $(kubectl -n kube-system \
 get secret -n kube-system -o name | grep namespace) | grep token:
 ```
 
