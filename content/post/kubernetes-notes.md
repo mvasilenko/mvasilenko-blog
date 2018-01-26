@@ -8,6 +8,58 @@ topics: ["kubernetes"]
 banner: "banners/kubernetes.png"
 ---
 
+# install golang
+```
+sudo apt-get install software-properties-common python-software-properties
+sudo add-apt-repository ppa:gophers/archive
+sudo apt-get install golang-1.9-go
+go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
+```
+
+add this to `.profile`
+```
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/lib/go-1.9/bin:$GOPATH/bin
+```
+
+# create a secret
+
+`kubectl create secret generic mysql-pass --from-literal=password=PASSWORD`
+
+# controllers
+deployment vs daemonSet vs replicationController
+
+# RBAC notes
+
+create namespace
+`kubectl create namespace office`
+
+
+generate key
+`openssl genrsa -out employee.key 2048`
+
+
+# architecture notes
+
+* hyperkube - image for apiserver, scheduler, controller-manager
+
+
+# dashboard
+
+`kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml`
+
+get token
+```kubectl -n kube-system describe $(kubectl -n kube-system \
+get secret -n kube-system -o name | grep namespace) | grep token:
+```
+
+
+# delete empty old replica sets rs
+
+```
+kubectl get --all-namespaces rs -o json|jq -r '.items[] | select(.spec.replicas | contains(0)) | "kubectl delete rs --namespace=\(.metadata.namespace) \(.metadata.name)"'
+```
+
 the color is red
 
 KUBERNETES CONCEPTS
