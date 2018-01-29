@@ -64,7 +64,17 @@ get secret -n kube-system -o name | grep namespace) | grep token:
 kubectl get --all-namespaces rs -o json|jq -r '.items[] | select(.spec.replicas | contains(0)) | "kubectl delete rs --namespace=\(.metadata.namespace) \(.metadata.name)"'
 ```
 
-the color is red
+# monitoring
+
+install helm
+add coreos-operator repo
+
+`helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/`
+
+
+get grafana pod name
+ 
+kubectl get pods --selector=app=kube-prometheus-grafana -n monitoring -o=jsonpath="{.items..metadata.name}"
 
 KUBERNETES CONCEPTS
 
