@@ -1,6 +1,6 @@
 ---
 title: "Terraform notes"
-date: 2017-10-06T11:53:31+03:00
+date: 2018-02-26T11:53:31+03:00
 draft: true
 tag: ["terraform", "ci"]
 categories: ["terraform"]
@@ -8,7 +8,12 @@ topics: ["terraform"]
 banner: "banners/terraform.png"
 ---
 
-Terraform notes
+## Terraform notes
+
+
+# Using custom provider build
+
+mkdir `terraform.d/plugins/darwin_amd64/` and place binary provider there
 
 Links
 

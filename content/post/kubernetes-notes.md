@@ -64,6 +64,20 @@ get secret -n kube-system -o name | grep namespace) | grep token:
 kubectl get --all-namespaces rs -o json|jq -r '.items[] | select(.spec.replicas | contains(0)) | "kubectl delete rs --namespace=\(.metadata.namespace) \(.metadata.name)"'
 ```
 
+# expose kube-scheduler and 
+
+`kubectl -n kube-system edit cm kubeadm-config`
+
+```
+vim /etc/kubernetes/manifests/kube-controller-manager.yaml
+vim /etc/kubernetes/manifests/kube-scheduler.yaml
+```
+set `--address=0.0.0.0`
+add `k8s-app: kube-controller-manager` and `k8s-app: kube-scheduler` to `labels` section
+then
+
+`systemctl restart kubelet`
+
 # monitoring
 
 install helm
@@ -71,10 +85,23 @@ add coreos-operator repo
 
 `helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/`
 
+port forward 9090 to prometheus
+
+`kubectl port-forward -n monitoring prometheus-kube-prometheus-0 9090`
 
 get grafana pod name
- 
-kubectl get pods --selector=app=kube-prometheus-grafana -n monitoring -o=jsonpath="{.items..metadata.name}"
+
+`grafana_pod=$(kubectl get pods --selector=app=kube-prometheus-grafana -n monitoring -o=jsonpath="{.items..metadata.name}")`
+
+`kubectl port-forward -n monitoring $grafana_pod 3000`
+
+port forward 9093 to alert manager
+
+`kubectl port-forward -n monitoring alertmanager-kube-prometheus-0 9093`
+
+
+ssh to kube server
+`ssh -L 9090:127.0.0.1:9090 -L 3000:127.0.0.1:3000 root@kube-server`
 
 KUBERNETES CONCEPTS
 

@@ -10,6 +10,32 @@ banner: "banners/docker.png"
 
 # Docker notes
 
+find out container by process pid
+
+```
+$ pstree -sg 7752
+
+systemd(1)───dockerd(18426)───docker-containe(18445)───docker-containe(7046)───sh(7089)───uwsgi(7089)───uwsgi(7089)─┬─{uwsgi}(7089)
+
+$ docker ps -q | xargs docker inspect --format '{{.State.Pid}}, {{.Name}}' |grep 7089
+7089, /container_1
+```
+
+# measure memory usage
+
+`docker stats $(docker ps --format={{.Names}}) --no-stream|sort -rn -k3|more`
+
+# Access host from container
+
+Add alias to host loopback
+
+`ifconfig lo0 alias 172.16.123.1`
+
+Remove it
+
+`ifconfig lo0 -alias 172.16.123.1`
+
+
 Enable docker on ubuntu and add current user to docker group
 ```
 sudo groupadd docker
@@ -54,6 +80,9 @@ ok, we've booted minimal docker box in virtualbox, we can ssh to it by
 `docker-machine ssh default` and run Docker hello world inside it by
 `docker run --rm hello-world`
 
+# docker images
+
+`docker inspect --format='{{index .RepoDigests 0}}' $IMAGE` - inspect image, shows sha256 hash
 
 # DOCKER NETWORKING
 
@@ -199,7 +228,7 @@ docker build -t myDockerUser/myDockerImage \
 
 # run with custom entry point
 
-`docker run --rm -it --entrypoint=/bin/bash IMAGE -i`
+`docker run --rm -it     IMAGE -i`
 
 # misc links
 

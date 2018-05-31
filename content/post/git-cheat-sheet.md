@@ -1,6 +1,6 @@
 ---
 title: "Git cheat sheet"
-date: 2017-11-28T17:53:31+03:00
+date: 2018-02-12T17:53:31+03:00
 tag: ["git", "development"]
 categories: ["development"]
 topics: ["development"]
@@ -8,6 +8,17 @@ banner: "banners/git.png"
 draft: false
 ---
 
+
+# set different user email for current repo
+# Versioning
+
+`echo "`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:\"%h\" -1`"`
+
+# One line print
+
+`git log --pretty=oneline`
+
+`git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit`
 
 # Moving backward and forward in commit history
 

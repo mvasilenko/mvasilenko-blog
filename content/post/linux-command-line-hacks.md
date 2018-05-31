@@ -8,6 +8,74 @@ draft: false
 banner: "banners/bash.png"
 ---
 
+# docker version
+
+
+create /etc/apt/sources.list.d/docker.list
+with
+deb https://apt.dockerproject.org/repo ubuntu-wily main
+
+apt-get update
+sudo apt-cache policy docker-engine
+apt-get install -y docker-engine=1.12.6-0~ubuntu-xenial
+
+
+# no pub key
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <PUBKEY>
+
+# cloud-init
+
+ubuntu
+
+```
+#!/bin/sh
+rm -rf /var/lib/cloud/sem/* /var/lib/cloud/instance /var/lib/cloud/instances/*
+cloud-init start 2>&1 > /dev/null
+cloud-init-cfg all final
+```
+
+
+centos
+
+```
+rm -rf /var/lib/cloud/sem/* /var/lib/cloud/instance /var/lib/cloud/instances/*
+cloud-init init
+cloud-init modules -m final
+```
+
+
+# generate ca and server keys
+
+generate root ca key
+
+`openssl genrsa -out rootCA.key 2048`
+
+generate root cert
+
+`openssl req -x509 -new -key rootCA.key -days 1000 -out rootCA.crt`
+
+generate server key
+
+`openssl genrsa -out server.key`
+
+generate certificate signing request
+
+`openssl req -new -key server.key -out server.csr`
+
+enter domain name when asked
+
+sign csr with our root ca
+
+`openssl x509 -req -in server.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out server.crt -days 1000`
+
+make PKCS#12 cert for chrome
+
+`openssl pkcs12 -export -out server.p12 -inkey server.key -in server.crt -certfile rootCA.crt`
+
+# ssh without prompt
+
+-o "StrictHostKeyChecking no"
+
 # copy ssh key on different port than 22
 
 `ssh-copy-id "user@host -p 8129"`
@@ -22,6 +90,10 @@ banner: "banners/bash.png"
 
 `apt-get remove ubuntu-release-upgrader-core`
 
+
+# don't replace first occurence
+
+`gsed -i '0,/pattern/! s|pattern|replace_with|' files_mask`
 
 # Change ens160 & ens192 to eth0 & eth1
 
@@ -63,6 +135,9 @@ allow from env=let_me_in
 # Show http requests in tcpdump
 
 `tcpdump -n -S -s 0 -A 'tcp dst port 80' | grep -B3 -A10 "GET /some-path"`
+
+`tcpdump -A -s 10240 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)' | egrep --line-buffered "^........(GET |HTTP\/|POST |HEAD |OPTIONS )|^[A-Za-z0-9-]+: " | sed -r 's/^........(GET |HTTP\/|POST |HEAD |OPTIONS )/\n\1/g'`
+
 
 # Rsync over SSH
 
