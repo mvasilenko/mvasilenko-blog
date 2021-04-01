@@ -60,7 +60,7 @@ theme = "hugo-icarus-theme"
 # by entering your username. The links to your account will be
 # create automatically.
     github          = "mvasilenko"
-    bitbucket       = "mvasilenko"
+    bitbucket       = ""
     jsfiddle        = ""
     codepen         = ""
     foursquare      = ""
