@@ -1,5 +1,5 @@
 +++
 type = "page"
 title = "Home"
-description = "Mikhail Vasilenko - human being, father, IT engineer"
+description = "Mikhail Vasilenko blog"
 +++

@@ -8,22 +8,5 @@ topics: ["study"]
 draft: true
 ---
 
-* AWS
-
-
-* Monitoring
-  * graphite 
-  * prometheus
-  * telegraf
-
-* Databases
-  * Elastic
-  * Cassandra
-
-* Provisioning
-  * terraform
-  * ansible
-  * vagrant
-  * puppet
-  * chef
-
+* Leetcode
+* relocate to Canada
