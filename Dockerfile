@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-ENV HUGO_VERSION="0.31"
+ENV HUGO_VERSION="0.83.1"
 ENV GITHUB_USERNAME="mvasilenko"
 ENV DOCKER_IMAGE_NAME="mvasilenko-blog"
 
